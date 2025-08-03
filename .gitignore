@@ -1,0 +1,21 @@
+# Environnements virtuels
+.venv/
+env/
+venv/
+
+# Bytecode Python
+__pycache__/
+*.py[cod]
+
+# Outils de dev
+*.log
+*.swp
+
+# PyInstaller / build
+build/
+dist/
+*.spec
+
+# IDE
+.vscode/
+.idea/
