@@ -2,8 +2,14 @@
 
 import pygame
 import sys
-from game.snake import Snake
+
 from game.config import WIDTH, HEIGHT, CELL_SIZE, BACKGROUND_COLOR, SNAKE_COLOR, TICK_RATE
+from game.food import Food
+from game.snake import Snake
+
+
+GRID_WIDTH = WIDTH // CELL_SIZE
+GRID_HEIGHT = HEIGHT // CELL_SIZE
 
 # Initialisation
 pygame.init()
@@ -12,6 +18,8 @@ pygame.display.set_caption("Snake Game")
 
 # Création du serpent
 snake = Snake()
+
+food = Food(GRID_WIDTH, GRID_HEIGHT, snake.body)
 
 # Boucle principale
 clock = pygame.time.Clock()
@@ -44,6 +52,17 @@ while running:
     for segment in snake.body:
         x, y = segment
         pygame.draw.rect(SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+    
+    FOOD_COLOR = (255, 0, 0)  # rouge
+
+    fx, fy = food.position
+    pygame.draw.rect(SCREEN, FOOD_COLOR, pygame.Rect(fx * CELL_SIZE, fy * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+
+    if snake.body[0] == food.position:
+        snake.grow()
+        food.randomize_position(snake.body)
+
+
 
     pygame.display.flip()
     clock.tick(TICK_RATE)
