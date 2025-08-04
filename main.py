@@ -3,7 +3,7 @@
 import pygame
 import sys
 
-from game.config import WIDTH, HEIGHT, CELL_SIZE, BACKGROUND_COLOR, SNAKE_COLOR, TICK_RATE
+from game.config import WIDTH, HEIGHT, CELL_SIZE, BACKGROUND_COLOR, SNAKE_COLOR, FOOD_COLOR, TICK_RATE
 from game.food import Food
 from game.snake import Snake
 
@@ -52,8 +52,6 @@ while running:
     for segment in snake.body:
         x, y = segment
         pygame.draw.rect(SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-    
-    FOOD_COLOR = (255, 0, 0)  # rouge
 
     fx, fy = food.position
     pygame.draw.rect(SCREEN, FOOD_COLOR, pygame.Rect(fx * CELL_SIZE, fy * CELL_SIZE, CELL_SIZE, CELL_SIZE))
@@ -61,8 +59,6 @@ while running:
     if snake.body[0] == food.position:
         snake.grow()
         food.randomize_position(snake.body)
-
-
 
     pygame.display.flip()
     clock.tick(TICK_RATE)

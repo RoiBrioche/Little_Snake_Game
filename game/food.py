@@ -1,5 +1,6 @@
 import random
 
+
 class Food:
     def __init__(self, grid_width, grid_height, snake_body):
         self.grid_width = grid_width
