@@ -26,3 +26,16 @@ class Snake:
 
     def grow(self):
         self.grow_pending = True
+
+    def check_collision(self, grid_width, grid_height):
+        head = self.body[0]
+
+        # Collision avec les murs
+        if not (0 <= head[0] < grid_width and 0 <= head[1] < grid_height):
+            return True
+
+        # Collision avec le corps (on ignore la tête)
+        if head in self.body[1:]:
+            return True
+
+        return False

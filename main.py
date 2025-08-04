@@ -15,7 +15,7 @@ pygame.display.set_caption("Snake Game")
 
 # Couleurs
 BACKGROUND_COLOR = (30, 30, 30)  # Gris foncé
-SNAKE_COLOR = (0, 255, 0)        # Vert
+SNAKE_COLOR = (0, 255, 0)  # Vert
 
 # Création du serpent
 snake = Snake()
@@ -43,16 +43,15 @@ while running:
 
     # Mettre à jour la logique du jeu
     snake.move()
+    if snake.check_collision(WIDTH // CELL_SIZE, HEIGHT // CELL_SIZE):
+        print("Game Over")
+        running = False
 
     # Affichage
     SCREEN.fill(BACKGROUND_COLOR)
     for segment in snake.body:
         x, y = segment
-        pygame.draw.rect(
-            SCREEN,
-            SNAKE_COLOR,
-            pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
-        )
+        pygame.draw.rect(SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
 
     pygame.display.flip()
     clock.tick(10)
