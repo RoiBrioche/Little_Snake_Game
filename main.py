@@ -3,19 +3,12 @@
 import pygame
 import sys
 from game.snake import Snake
+from game.config import WIDTH, HEIGHT, CELL_SIZE, BACKGROUND_COLOR, SNAKE_COLOR, TICK_RATE
 
 # Initialisation
 pygame.init()
-
-# Paramètres de la fenêtre
-WIDTH, HEIGHT = 600, 600
-CELL_SIZE = 20  # Taille d'une cellule de la grille
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Snake Game")
-
-# Couleurs
-BACKGROUND_COLOR = (30, 30, 30)  # Gris foncé
-SNAKE_COLOR = (0, 255, 0)  # Vert
 
 # Création du serpent
 snake = Snake()
@@ -30,7 +23,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # Gestion des touches
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 snake.change_direction((0, -1))
@@ -41,7 +33,7 @@ while running:
             elif event.key == pygame.K_RIGHT:
                 snake.change_direction((1, 0))
 
-    # Mettre à jour la logique du jeu
+    # Logique du jeu
     snake.move()
     if snake.check_collision(WIDTH // CELL_SIZE, HEIGHT // CELL_SIZE):
         print("Game Over")
@@ -54,8 +46,7 @@ while running:
         pygame.draw.rect(SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
 
     pygame.display.flip()
-    clock.tick(10)
+    clock.tick(TICK_RATE)
 
-# Nettoyage
 pygame.quit()
 sys.exit()
