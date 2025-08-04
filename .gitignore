@@ -19,3 +19,5 @@ dist/
 # IDE
 .vscode/
 .idea/
+
+guide.md
