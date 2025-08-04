@@ -29,7 +29,7 @@ def test_collision_with_wall():
 def test_no_collision():
 
     snake = Snake()
-    snake.body = [(5, 5), (5, 6), (5, 5)]
+    snake.body = [(5, 5), (5, 6), (5, 7)]
 
     assert snake.check_collision(20, 20) is False
 
@@ -37,9 +37,9 @@ def test_no_collision():
 def test_collision_with_body():
 
     snake = Snake()
-
     # La tête est sur un segment du corps
     snake.body = [(5, 5), (5, 6), (5, 5)]
+
     assert snake.check_collision(20, 20) is True
 
 
