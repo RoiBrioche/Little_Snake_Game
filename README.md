@@ -70,7 +70,7 @@ pip install -r requirements.txt
 
 5. Run the game :
 ```
-python game/main.py
+python main.py
 ```
 
 ### macOS / Linux (bash/zsh)
