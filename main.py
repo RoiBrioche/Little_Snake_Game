@@ -21,6 +21,7 @@ snake = Snake()
 
 food = Food(GRID_WIDTH, GRID_HEIGHT, snake.body)
 
+game_over = False
 score = 0
 font = pygame.font.Font(None, 36)  # Police par défaut, taille 36
 
@@ -35,30 +36,40 @@ while running:
             running = False
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                snake.change_direction((0, -1))
-            elif event.key == pygame.K_DOWN:
-                snake.change_direction((0, 1))
-            elif event.key == pygame.K_LEFT:
-                snake.change_direction((-1, 0))
-            elif event.key == pygame.K_RIGHT:
-                snake.change_direction((1, 0))
+            if not game_over:
+                if event.key == pygame.K_UP:
+                    snake.change_direction((0, -1))
+                elif event.key == pygame.K_DOWN:
+                    snake.change_direction((0, 1))
+                elif event.key == pygame.K_LEFT:
+                    snake.change_direction((-1, 0))
+                elif event.key == pygame.K_RIGHT:
+                    snake.change_direction((1, 0))
+            
+            else:
+                if event.key == pygame.K_r:
+                    # Recommencer le jeu
+                    snake = Snake()
+                    food = Food(GRID_WIDTH, GRID_HEIGHT, snake.body)
+                    score = 0
+                    game_over = False
+                elif event.key == pygame.K_ESCAPE:
+                    running = False
+    
+    if not game_over:
+        # Logique du jeu
+        snake.move()
+        if snake.check_collision(GRID_WIDTH, GRID_HEIGHT):
+            print("Game Over")
+            game_over = True
 
-    # Logique du jeu
-    snake.move()
-    if snake.check_collision(GRID_WIDTH, GRID_HEIGHT):
-        print("Game Over")
-        running = False
-    # if snake.check_collision(WIDTH // CELL_SIZE, GRID_HEIGHT // CELL_SIZE):
-    #     game_over = True
-
-    # Affichage
-    SCREEN.fill(BACKGROUND_COLOR)
-    for segment in snake.body:
-        x, y = segment
-        pygame.draw.rect(
-            SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
-        )
+        # Affichage
+        SCREEN.fill(BACKGROUND_COLOR)
+        for segment in snake.body:
+            x, y = segment
+            pygame.draw.rect(
+                SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
+            )
 
     pygame.draw.rect(
         SCREEN,
@@ -81,6 +92,11 @@ while running:
     # Affichage du score
     score_text = font.render(f"Score: {score}", True, (255, 255, 255))
     SCREEN.blit(score_text, (10, 10))
+
+    if game_over:
+        game_over_text = font.render("Game Over - Press R to Restart", True, (255, 0, 0))
+        text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        SCREEN.blit(game_over_text, text_rect)
 
     pygame.display.flip()
     clock.tick(TICK_RATE)
