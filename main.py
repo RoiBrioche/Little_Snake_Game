@@ -45,7 +45,7 @@ while running:
                     snake.change_direction((-1, 0))
                 elif event.key == pygame.K_RIGHT:
                     snake.change_direction((1, 0))
-            
+
             else:
                 if event.key == pygame.K_r:
                     # Recommencer le jeu
@@ -55,7 +55,7 @@ while running:
                     game_over = False
                 elif event.key == pygame.K_ESCAPE:
                     running = False
-    
+
     if not game_over:
         # Logique du jeu
         snake.move()
