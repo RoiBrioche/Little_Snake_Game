@@ -17,3 +17,7 @@ FOOD_COLOR = (255, 0, 0)  # rouge
 
 # FPS
 TICK_RATE = 10
+
+
+# Fichier de score
+BEST_SCORE_FILE = "best_score.txt"
