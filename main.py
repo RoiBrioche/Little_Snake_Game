@@ -1,36 +1,34 @@
-# main.py
-
 import pygame
 import sys
 
 from game.config import WIDTH, HEIGHT, HEADER_HEIGHT, CELL_SIZE, BACKGROUND_COLOR, SNAKE_COLOR, FOOD_COLOR, TICK_RATE
 from game.food import Food
 from game.snake import Snake
+from game.score_manager import load_best_score, save_best_score
 
 
 GRID_HEIGHT = (HEIGHT - HEADER_HEIGHT) // CELL_SIZE
 GRID_WIDTH = WIDTH // CELL_SIZE
+
+from game.graphics import draw_trophy_image
 
 # Initialisation
 pygame.init()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Snake Game")
 
-# Création du serpent
 snake = Snake()
-
 food = Food(GRID_WIDTH, GRID_HEIGHT, snake.body)
 
 game_over = False
 score = 0
-font = pygame.font.Font(None, 36)  # Police par défaut, taille 36
+best_score = load_best_score()
+font = pygame.font.Font(None, 36)
 
-# Boucle principale
 clock = pygame.time.Clock()
 running = True
 
 while running:
-    # Gestion des événements
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -45,10 +43,12 @@ while running:
                     snake.change_direction((-1, 0))
                 elif event.key == pygame.K_RIGHT:
                     snake.change_direction((1, 0))
-
             else:
                 if event.key == pygame.K_r:
-                    # Recommencer le jeu
+                    if score > best_score:
+                        best_score = score
+                        save_best_score(best_score)
+
                     snake = Snake()
                     food = Food(GRID_WIDTH, GRID_HEIGHT, snake.body)
                     score = 0
@@ -57,29 +57,23 @@ while running:
                     running = False
 
     if not game_over:
-        # Logique du jeu
         snake.move()
         if snake.check_collision(GRID_WIDTH, GRID_HEIGHT):
-            print("Game Over")
             game_over = True
 
-        # Affichage
         SCREEN.fill(BACKGROUND_COLOR)
         for segment in snake.body:
             x, y = segment
             pygame.draw.rect(
-                SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
+                SCREEN,
+                SNAKE_COLOR,
+                pygame.Rect(x * CELL_SIZE, y * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE),
             )
 
     pygame.draw.rect(
         SCREEN,
-        (255, 0, 0),
-        pygame.Rect(
-            food.position[0] * CELL_SIZE,
-            food.position[1] * CELL_SIZE + HEADER_HEIGHT,
-            CELL_SIZE,
-            CELL_SIZE,
-        ),
+        FOOD_COLOR,
+        pygame.Rect(food.position[0] * CELL_SIZE, food.position[1] * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE),
     )
 
     if snake.body[0] == food.position:
@@ -87,11 +81,15 @@ while running:
         food.randomize_position(snake.body)
         score += 1
 
-    # Bandeau
-    pygame.draw.rect(SCREEN, (50, 50, 50), pygame.Rect(0, 0, WIDTH, HEADER_HEIGHT))  # gris foncé
-    # Affichage du score
+    pygame.draw.rect(SCREEN, (50, 50, 50), pygame.Rect(0, 0, WIDTH, HEADER_HEIGHT))
+
     score_text = font.render(f"Score: {score}", True, (255, 255, 255))
     SCREEN.blit(score_text, (10, 10))
+
+    # Affichage du trophée à gauche du meilleur score
+    draw_trophy_image(SCREEN, WIDTH - 200, 5)
+    best_score_text = font.render(f"{best_score}", True, (255, 215, 0))
+    SCREEN.blit(best_score_text, (WIDTH - 140, 15))
 
     if game_over:
         game_over_text = font.render("Game Over - Press R to Restart", True, (255, 0, 0))
@@ -100,6 +98,9 @@ while running:
 
     pygame.display.flip()
     clock.tick(TICK_RATE)
+
+if score > best_score:
+    save_best_score(score)
 
 pygame.quit()
 sys.exit()
