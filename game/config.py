@@ -21,3 +21,7 @@ TICK_RATE = 10
 
 # Fichier de score
 BEST_SCORE_FILE = "best_score.txt"
+
+# Couleurs de la grille (damier)
+GRID_COLOR_LIGHT = (170, 215, 81)  # vert clair
+GRID_COLOR_DARK = (162, 209, 73)   # vert plus foncé
