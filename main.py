@@ -1,7 +1,18 @@
 import pygame
 import sys
 
-from game.config import WIDTH, HEIGHT, HEADER_HEIGHT, CELL_SIZE, BACKGROUND_COLOR, SNAKE_COLOR, FOOD_COLOR, TICK_RATE
+from game.config import (
+    WIDTH,
+    HEIGHT,
+    HEADER_HEIGHT,
+    CELL_SIZE,
+    BACKGROUND_COLOR,
+    SNAKE_COLOR,
+    FOOD_COLOR,
+    TICK_RATE,
+    GRID_COLOR_LIGHT,
+    GRID_COLOR_DARK,
+)
 from game.food import Food
 from game.snake import Snake
 from game.score_manager import load_best_score, save_best_score
@@ -61,7 +72,19 @@ while running:
         if snake.check_collision(GRID_WIDTH, GRID_HEIGHT):
             game_over = True
 
-        SCREEN.fill(BACKGROUND_COLOR)
+        # --- Dessin du damier ---
+        for row in range(GRID_HEIGHT):
+            for col in range(GRID_WIDTH):
+                if (row + col) % 2 == 0:
+                    color = GRID_COLOR_LIGHT
+                else:
+                    color = GRID_COLOR_DARK
+                pygame.draw.rect(
+                    SCREEN,
+                    color,
+                    pygame.Rect(col * CELL_SIZE, row * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
+                )
+
         for segment in snake.body:
             x, y = segment
             pygame.draw.rect(
