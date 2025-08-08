@@ -80,17 +80,13 @@ while running:
                 else:
                     color = GRID_COLOR_DARK
                 pygame.draw.rect(
-                    SCREEN,
-                    color,
-                    pygame.Rect(col * CELL_SIZE, row * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
+                    SCREEN, color, pygame.Rect(col * CELL_SIZE, row * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
                 )
 
         for segment in snake.body:
             x, y = segment
             pygame.draw.rect(
-                SCREEN,
-                SNAKE_COLOR,
-                pygame.Rect(x * CELL_SIZE, y * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE),
+                SCREEN, SNAKE_COLOR, pygame.Rect(x * CELL_SIZE, y * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
             )
 
     pygame.draw.rect(
