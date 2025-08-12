@@ -6,7 +6,7 @@ from game.graphics import draw_trophy_image
 GRID_HEIGHT = (HEIGHT - HEADER_HEIGHT) // CELL_SIZE
 GRID_WIDTH = WIDTH // CELL_SIZE
 
-def draw_game_screen(screen, snake, food, score, best_score, game_over, font):
+def draw_game_screen(screen, snake, food, score, best_score, game_over, font, show_menu):
     screen.fill(BACKGROUND_COLOR)
 
     # Dessiner la grille (damier)
@@ -38,18 +38,41 @@ def draw_game_screen(screen, snake, food, score, best_score, game_over, font):
         pygame.Rect(food.position[0] * CELL_SIZE, food.position[1] * CELL_SIZE + HEADER_HEIGHT, CELL_SIZE, CELL_SIZE)
     )
 
-    # Dessiner la barre de score
+    # Barre de score
     pygame.draw.rect(screen, (50, 50, 50), pygame.Rect(0, 0, WIDTH, HEADER_HEIGHT))
-    
-
     score_text = font.render(f"Score: {score}", True, (255, 255, 255))
     screen.blit(score_text, (10, 10))
-
-    # Afficher le trophée à gauche du best score
     draw_trophy_image(screen, WIDTH - 210, 5)
-
     best_score_text = font.render(f"Best: {best_score}", True, (255, 215, 0))
     screen.blit(best_score_text, (WIDTH - 150, 10))
+
+    # --- Menu en overlay ---
+    if show_menu:
+        overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 150))  # Fond semi-transparent
+        screen.blit(overlay, (0, 0))
+
+        card_width, card_height = 300, 250
+        card_x = WIDTH // 2 - card_width // 2
+        card_y = HEIGHT // 2 - card_height // 2
+
+        pygame.draw.rect(screen, (30, 30, 30), (card_x, card_y, card_width, card_height), border_radius=12)
+
+        # Titre
+        title_text = font.render("Menu", True, (255, 255, 255))
+        screen.blit(title_text, (card_x + card_width//2 - title_text.get_width()//2, card_y + 20))
+
+        # Score
+        score_text = font.render(f"Score: {score}", True, (200, 200, 200))
+        best_text = font.render(f"Best: {best_score}", True, (255, 215, 0))
+        screen.blit(score_text, (card_x + 30, card_y + 70))
+        screen.blit(best_text, (card_x + 30, card_y + 110))
+
+        # Options
+        options = ["[C] Continuer", "[R] Rejouer", "[Q] Quitter"]
+        for i, opt in enumerate(options):
+            opt_text = font.render(opt, True, (255, 255, 255))
+            screen.blit(opt_text, (card_x + 30, card_y + 160 + i * 40))
 
     if game_over:
         game_over_text = font.render("Game Over - Press R to Restart", True, (255, 0, 0))

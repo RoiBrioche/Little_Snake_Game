@@ -35,7 +35,10 @@ def run_game(screen):
     running = True
     while running:
 
-        running, game_over, score, best_score, snake, food = handle_events(running, game_over, score, best_score, snake, food, show_menu)
+        running, game_over, score, best_score, snake, food, show_menu = handle_events(
+            running, game_over, score, best_score, snake, food, show_menu
+        )
+
         if not game_over:
             snake.move()
             if snake.check_collision(GRID_WIDTH, GRID_HEIGHT):
