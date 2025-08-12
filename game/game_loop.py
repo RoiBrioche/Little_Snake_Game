@@ -20,6 +20,7 @@ from game.graphics import draw_trophy_image
 from game.event_handler import handle_events
 from game.draw import draw_game_screen
 
+
 def run_game(screen):
 
     snake = Snake()
@@ -34,14 +35,14 @@ def run_game(screen):
     print("le jeux va se lancer")
     running = True
     while running:
-         
+
         button_rects = draw_game_screen(screen, snake, food, score, best_score, game_over, font, show_menu)
 
         running, game_over, score, best_score, snake, food, show_menu = handle_events(
             running, game_over, score, best_score, snake, food, show_menu, button_rects
         )
 
-# --- LOGIQUE DE JEU ---
+        # --- LOGIQUE DE JEU ---
         if not game_over and not show_menu:
             snake.move()
 

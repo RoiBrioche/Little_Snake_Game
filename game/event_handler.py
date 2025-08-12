@@ -15,14 +15,12 @@ GRID_HEIGHT = (HEIGHT - HEADER_HEIGHT) // CELL_SIZE
 GRID_WIDTH = WIDTH // CELL_SIZE
 
 
-
 def handle_events(running, game_over, score, best_score, snake, food, show_menu, button_rects):
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             running = False
 
-        
         if event.type == pygame.MOUSEBUTTONDOWN and show_menu:
             mouse_pos = pygame.mouse.get_pos()
             if button_rects["continue"].collidepoint(mouse_pos):
