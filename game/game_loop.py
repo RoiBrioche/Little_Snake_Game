@@ -39,17 +39,17 @@ def run_game(screen):
             running, game_over, score, best_score, snake, food, show_menu
         )
 
-        if not game_over:
+# --- LOGIQUE DE JEU ---
+        if not game_over and not show_menu:
             snake.move()
+
             if snake.check_collision(GRID_WIDTH, GRID_HEIGHT):
                 game_over = True
 
-        if not show_menu:
             if snake.body[0] == food.position:
                 snake.grow()
                 food.randomize_position(snake.body)
                 score += 1
-
         draw_game_screen(screen, snake, food, score, best_score, game_over, font, show_menu)
 
         pygame.display.flip()
