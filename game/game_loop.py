@@ -34,9 +34,11 @@ def run_game(screen):
     print("le jeux va se lancer")
     running = True
     while running:
+         
+        button_rects = draw_game_screen(screen, snake, food, score, best_score, game_over, font, show_menu)
 
         running, game_over, score, best_score, snake, food, show_menu = handle_events(
-            running, game_over, score, best_score, snake, food, show_menu
+            running, game_over, score, best_score, snake, food, show_menu, button_rects
         )
 
 # --- LOGIQUE DE JEU ---

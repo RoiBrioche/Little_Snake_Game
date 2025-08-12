@@ -46,13 +46,16 @@ def draw_game_screen(screen, snake, food, score, best_score, game_over, font, sh
     best_score_text = font.render(f"Best: {best_score}", True, (255, 215, 0))
     screen.blit(best_score_text, (WIDTH - 150, 10))
 
-    # --- Menu en overlay ---
+    
+    button_rects = {}
+
+    # --- Menu ---
     if show_menu:
         overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-        overlay.fill((0, 0, 0, 150))  # Fond semi-transparent
+        overlay.fill((0, 0, 0, 150))
         screen.blit(overlay, (0, 0))
 
-        card_width, card_height = 300, 250
+        card_width, card_height = 300, 300
         card_x = WIDTH // 2 - card_width // 2
         card_y = HEIGHT // 2 - card_height // 2
 
@@ -68,13 +71,19 @@ def draw_game_screen(screen, snake, food, score, best_score, game_over, font, sh
         screen.blit(score_text, (card_x + 30, card_y + 70))
         screen.blit(best_text, (card_x + 30, card_y + 110))
 
-        # Options
-        options = ["[C] Continuer", "[R] Rejouer", "[Q] Quitter"]
-        for i, opt in enumerate(options):
-            opt_text = font.render(opt, True, (255, 255, 255))
-            screen.blit(opt_text, (card_x + 30, card_y + 160 + i * 40))
+        # Boutons
+        options = [("Continuer", "continue"), ("Rejouer", "restart"), ("Quitter", "quit")]
+        for i, (label, action) in enumerate(options):
+            btn_rect = pygame.Rect(card_x + 30, card_y + 160 + i * 40, card_width - 60, 30)
+            pygame.draw.rect(screen, (70, 70, 70), btn_rect, border_radius=6)
+            text_surf = font.render(label, True, (255, 255, 255))
+            screen.blit(text_surf, (btn_rect.x + (btn_rect.width - text_surf.get_width()) // 2,
+                                    btn_rect.y + (btn_rect.height - text_surf.get_height()) // 2))
+            button_rects[action] = btn_rect
 
     if game_over:
         game_over_text = font.render("Game Over - Press R to Restart", True, (255, 0, 0))
         text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
         screen.blit(game_over_text, text_rect)
+
+    return button_rects
