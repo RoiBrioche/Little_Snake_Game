@@ -53,6 +53,10 @@ def run_game(screen):
                 snake.grow()
                 food.randomize_position(snake.body)
                 score += 1
+
+            if score > best_score:
+                best_score = score
+
         draw_game_screen(screen, snake, food, score, best_score, game_over, font, show_menu)
 
         pygame.display.flip()
