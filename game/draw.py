@@ -50,7 +50,7 @@ def draw_game_screen(screen, snake, food, score, best_score, game_over, font, sh
 
     # --- Menu ---
     if show_menu:
-         button_rects = draw_menu(screen, font, score, best_score)
+        button_rects = draw_menu(screen, font, score, best_score)
 
     if game_over:
         game_over_text = font.render("Game Over - Press R to Restart", True, (255, 0, 0))
