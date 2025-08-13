@@ -2,7 +2,7 @@ import pygame
 
 from unittest.mock import patch
 
-from game.graphics import draw_trophy_image
+from game.graphics.draw_pictures import draw_trophy_image
 
 
 def test_draw_trophy_image_loads_and_blits():
