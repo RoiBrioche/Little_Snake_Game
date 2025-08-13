@@ -16,7 +16,6 @@ from game.score_manager import load_best_score, save_best_score
 GRID_HEIGHT = (HEIGHT - HEADER_HEIGHT) // CELL_SIZE
 GRID_WIDTH = WIDTH // CELL_SIZE
 
-from game.graphics import draw_trophy_image
 from game.event_handler import handle_events
 from game.draw import draw_game_screen
 
